@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 
+/**
+ * @author <a href="mailto:bizheng@gmail.com">Zheng BI</a>
+ * @version $Id: $
+ */
 public class WebUtil {
 
   private static Pattern emailPattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
