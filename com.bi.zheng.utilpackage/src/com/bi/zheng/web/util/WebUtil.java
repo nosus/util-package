@@ -3,6 +3,7 @@ package com.bi.zheng.web.util;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.ServletRequest;
 
 import com.google.common.collect.Lists;
 
@@ -58,6 +59,15 @@ public class WebUtil {
       emailList.add(email);
     }
     return emailList;
+  }
+  
+  @SuppressWarnings("unchecked")
+  public void iterateAllParameters(ServletRequest request){
+    java.util.Enumeration<String> e= request.getParameterNames();
+    while(e.hasMoreElements()){
+      String param= e.nextElement();
+      System.out.println(param + " : " + request.getParameter(param));
+    }
   }
 
 }

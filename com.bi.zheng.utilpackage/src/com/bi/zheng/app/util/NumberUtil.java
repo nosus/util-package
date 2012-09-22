@@ -1,5 +1,6 @@
 package com.bi.zheng.app.util;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -148,5 +149,167 @@ public class NumberUtil {
     } catch (RuntimeException e) {
       return false;
     }
+  }
+
+  /*
+   * 功能描述:将数字字符按会计格式整理返回固定长度 formatNumber（"-1400.235",2)=-1,400.24保留两位） 可以保留小数点后几位,如果不足,补0 如果足,就四舍五入
+   * 整数和小数的逗号分割
+   */
+  public static String formatNumber(String number, int weishu) throws Exception {
+    if (number == null || (number.trim().length() == 0)) {
+      return "";
+    }
+    String first = number.substring(0, 1);
+    if ("-".equals(first)) { // 针对数字为负数的情况
+      number = number.substring(1);
+      return first + formatPositiveNumber(number, weishu);
+    } else { // 针对数字为正数的情况
+      return formatPositiveNumber(number, weishu);
+    }
+  }
+
+  public static String formatPositiveNumber(String number, int weishu) throws Exception {
+    try {
+      // 判断字符串是否为空
+      if (number == null || (number.trim().length() == 0)) {
+        return "";
+      }
+      // 判断首字符为"."的情况
+      String first = number.substring(0, 1);
+      if (".".equals(first)) {
+        number = "0" + number;
+      }
+      // 判断字符串里有除点号之外的非数字存在
+      char[] strArray = number.toCharArray();
+      for (int i = 0; i < strArray.length; i++) {
+        if ((strArray[i] < '0' || strArray[i] > '9') && strArray[i] != '.') {
+          return number;
+        }
+      }
+      // 判断小数位数为0的情况
+      if (number.indexOf(".") != -1 && weishu == 0) {
+
+        int pointNumber = number.indexOf(".");
+        String strFirst = number.substring(0, pointNumber);
+
+        // 小数点前字符串分割
+        strFirst = splitFirstNumber(strFirst);
+        return strFirst;
+
+      }
+
+      // 判断没有小数点，但小数位数要求有位数的情况
+      if (number.indexOf(".") == -1 && weishu != 0) {
+
+        number = number + ".";
+        for (int i = 0; i < weishu; i++) {
+          number = number + "0";
+        }
+
+        int pointNumber = number.indexOf(".");
+        String strFirst = number.substring(0, pointNumber);
+        String strLast = number.substring(pointNumber + 1, number.length());
+
+        // 小数点前字符串分割
+        strFirst = splitFirstNumber(strFirst);
+
+        // 小数点后字符串分割
+        strLast = splitLastNumber(strLast);
+
+        return strFirst + "." + strLast;
+
+      }
+
+      // 判断没有小数部分的情况
+      if ((number.indexOf(".") == -1) && weishu == 0) {
+
+        // 小数点前字符串分割
+        number = splitFirstNumber(number);
+        return number;
+      } else {
+        int pointNumber = number.indexOf(".");
+        String strFirst = number.substring(0, pointNumber);
+        String strLast = number.substring(pointNumber + 1, number.length());
+
+        // 小数位数判断
+        strLast = formatPoint(strLast, weishu);
+
+        // 小数点前字符串分割
+        strFirst = splitFirstNumber(strFirst);
+
+        // 小数点后字符串分割
+        strLast = splitLastNumber(strLast);
+
+        return strFirst + "." + strLast;
+      }
+    } catch (Exception e) {
+      throw new Exception("数字格式出错" + e.getMessage());
+    }
+  }
+
+  /**
+   * @param str
+   *          小数点前的字符串
+   * @return 返回小数点前的逗号分割
+   */
+  public static String splitFirstNumber(String str) {
+    StringBuffer strBuffer = new StringBuffer();
+    strBuffer.append(str);
+    strBuffer.reverse();
+    str = strBuffer.toString();
+    StringBuffer sb = new StringBuffer();
+    for (int i = 0; i < str.length(); i = i + 3) {
+      if (i + 3 < str.length()) {
+        String str1 = str.substring(i, i + 3);
+        sb.append(str1);
+        sb.append(",");
+      } else {
+        String str2 = str.substring(i, str.length());
+        sb.append(str2);
+      }
+    }
+    sb.reverse();
+    return sb.toString();
+  }
+
+  /**
+   * @param str
+   *          小数点后字符串
+   * @return 逗号分割后的字符串
+   */
+  public static String splitLastNumber(String str) {
+    StringBuffer sb = new StringBuffer();
+    for (int i = 0; i < str.length(); i = i + 3) {
+      if (i + 3 < str.length()) {
+        String str1 = str.substring(i, i + 3);
+        sb.append(str1);
+        sb.append(",");
+      } else {
+        String str2 = str.substring(i, str.length());
+        sb.append(str2);
+      }
+    }
+    return sb.toString();
+  }
+
+  /**
+   * @param laststr
+   *          小数点后字符串
+   * @param bitWei
+   *          截取的字符串长度
+   * @return 返回小数点后应得的字符串
+   */
+  public static String formatPoint(String laststr, int bitWei) {
+    int n = laststr.length();
+    if (n < bitWei) {
+      for (int i = 0; i < bitWei - n; i++) {
+        laststr = laststr + "0";
+      }
+    } else {
+      BigDecimal bd = new BigDecimal("0." + laststr).setScale(bitWei, BigDecimal.ROUND_HALF_UP);
+      laststr = bd.toString();
+      laststr = laststr.substring(2, laststr.length());
+    }
+    return laststr;
   }
 }
