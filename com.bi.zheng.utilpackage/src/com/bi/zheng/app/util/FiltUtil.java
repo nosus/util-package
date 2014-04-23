@@ -30,10 +30,10 @@ public class FiltUtil {
   }
   
   public Properties readPropertiesFile(String fileName) throws IOException {
-    Properties prop = new Properties();// ÊôÐÔ¼¯ºÏ¶ÔÏó   
+    Properties prop = new Properties();// ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½   
     FileInputStream fis = new FileInputStream(fileName);
-    prop.load(fis);// ½«ÊôÐÔÎÄ¼þÁ÷×°ÔØµ½Properties¶ÔÏóÖÐ   
-    fis.close();// ¹Ø±ÕÁ÷   
+    prop.load(fis);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½×°ï¿½Øµï¿½Propertiesï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
+    fis.close();// ï¿½Ø±ï¿½ï¿½ï¿½   
     return prop;
   }
   
@@ -46,7 +46,7 @@ public class FiltUtil {
     prop.setProperty(propertyName, value); 
     FileOutputStream fos = new FileOutputStream(fileName);   
     prop.store(fos, "Copyright (c) bizheng");   
-    fos.close();// ¹Ø±ÕÁ÷   
+    fos.close();// ï¿½Ø±ï¿½ï¿½ï¿½   
   }
   
   public void readXMLFile(String filePath) {
@@ -56,16 +56,16 @@ public class FiltUtil {
   
   public void readXMLFile(File file) {
     Element element = null;
-    DocumentBuilder db = null; // documentBuilderÎª³éÏó²»ÄÜÖ±½ÓÊµÀý»¯(½«XMLÎÄ¼þ×ª»»ÎªDOMÎÄ¼þ)
+    DocumentBuilder db = null; 
     DocumentBuilderFactory dbf = null;
     try {
-      dbf = DocumentBuilderFactory.newInstance(); // ·µ»ØdocumentBuilderFactory¶ÔÏó
-      db = dbf.newDocumentBuilder();// ·µ»Ødb¶ÔÏóÓÃdocumentBuilderFatory¶ÔÏó»ñµÃ·µ»ØdocumentBuildr¶ÔÏó
-      Document dt = db.parse(file); // µÃµ½Ò»¸öDOM²¢·µ»Ø¸ødocument¶ÔÏó
-      element = dt.getDocumentElement();// µÃµ½Ò»¸öelment¸ùÔªËØ
-      System.out.println("Root:" + element.getNodeName()); // »ñµÃ¸ù½Úµã
+      dbf = DocumentBuilderFactory.newInstance(); // ï¿½ï¿½ï¿½ï¿½documentBuilderFactoryï¿½ï¿½ï¿½ï¿½
+      db = dbf.newDocumentBuilder();// ï¿½ï¿½ï¿½ï¿½dbï¿½ï¿½ï¿½ï¿½ï¿½ï¿½documentBuilderFatoryï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½documentBuildrï¿½ï¿½ï¿½ï¿½
+      Document dt = db.parse(file); // ï¿½Ãµï¿½Ò»ï¿½ï¿½DOMï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½documentï¿½ï¿½ï¿½ï¿½
+      element = dt.getDocumentElement();// ï¿½Ãµï¿½Ò»ï¿½ï¿½elmentï¿½ï¿½Ôªï¿½ï¿½
+      System.out.println("Root:" + element.getNodeName()); // ï¿½ï¿½Ã¸ï¿½Úµï¿½
 
-      NodeList childNodes = element.getChildNodes(); // »ñµÃ¸ùÔªËØÏÂµÄ×Ó½Úµã
+      NodeList childNodes = element.getChildNodes(); // ï¿½ï¿½Ã¸ï¿½Ôªï¿½ï¿½ï¿½Âµï¿½ï¿½Ó½Úµï¿½
 
       for (int i = 0; i < childNodes.getLength(); i++) {
         Node node = childNodes.item(i);
@@ -82,7 +82,7 @@ public class FiltUtil {
   }
   
   /**
-   * ¿½±´Ò»¸öÄ¿Â¼»òÕßÎÄ¼þµ½Ö¸¶¨Â·¾¶ÏÂ
+   * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½
    * 
    * @param source
    * @param target
